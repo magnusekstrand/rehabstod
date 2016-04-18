@@ -425,8 +425,13 @@
     </bean>
 
     <!-- Provider of default SAML Context -->
-    <bean id="contextProvider" class="org.springframework.security.saml.context.SAMLContextProviderImpl">
-        <property name="keyManager" ref="keyManager" />
+    <bean id="contextProvider" class="org.springframework.security.saml.context.SAMLContextProviderLB">
+      <property name="keyManager" ref="keyManager" />
+      <property name="scheme" value="${rehabstod.host.scheme}"/>
+      <property name="serverName" value="${rehabstod.host.url}"/>
+      <property name="serverPort" value="${rehabstod.host.port}"/>
+      <property name="includeServerPortInRequestURL" value="false"/>
+      <property name="contextPath" value=""/>
     </bean>
 
     <!-- Logout handler terminating local session -->
