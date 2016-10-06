@@ -20,9 +20,8 @@ package se.inera.intyg.rehabstod.service.userpreference;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import se.inera.intyg.rehabstod.auth.RehabstodUser;
-import se.inera.intyg.rehabstod.persistence.store.UserPreferenceStore;
+import se.inera.intyg.rehabstod.persistence.ignite.IgniteService;
 import se.inera.intyg.rehabstod.service.user.UserService;
 
 /**
@@ -32,7 +31,8 @@ import se.inera.intyg.rehabstod.service.user.UserService;
 public class UserPreferenceServiceImpl implements UserPreferenceService {
 
     @Autowired
-    private UserPreferenceStore userPreferenceStore;
+    private IgniteService userPreferenceStore;
+    //private UserPreferenceStore userPreferenceStore;
 
     @Autowired
     private UserService userService;

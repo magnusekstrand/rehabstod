@@ -16,46 +16,55 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.rehabstod.persistence.store;
+package se.inera.intyg.rehabstod.persistence.ignite;
 
-import net.openhft.chronicle.map.ChronicleMap;
+import org.apache.ignite.Ignite;
+import org.apache.ignite.IgniteCache;
+import org.apache.ignite.Ignition;
+import org.apache.ignite.cache.CacheMode;
+import org.apache.ignite.cache.store.CacheStore;
+import org.apache.ignite.configuration.CacheConfiguration;
+import org.apache.ignite.lang.IgniteBiPredicate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.IOException;
+import javax.cache.configuration.Factory;
 
 /**
  * Created by eriklupander on 2016-10-06.
  */
 @Service
-public class UserPreferenceStore {
+public class IgniteServiceImpl implements IgniteService {
 
-    private static final int ENTRIES = 200;
-    private static final double AVERAGE_KEY_SIZE = 40d;
-    private static final double AVERAGE_VALUE_SIZE = 20d;
+    private IgniteCache<String, String> userPreferences;
 
     @Value("${user.preferences.file}")
     private String userPreferenceFile;
 
-    private ChronicleMap<String, String> userPreferences;
-
     @PostConstruct
     public void init() {
 
-        try {
-            userPreferences = ChronicleMap
-                    .of(String.class, String.class)
-                    .entries(ENTRIES)
-                    .averageValueSize(AVERAGE_VALUE_SIZE)
-                    .averageKeySize(AVERAGE_KEY_SIZE)
-                    .createPersistedTo(new File(userPreferenceFile));
-        } catch (IOException e) {
-            throw new RuntimeException("Unable to bootstrap disk persistent user preference store: " + e.getMessage());
-        }
+        Ignite ignite = Ignition.start("example-ignite.xml");
+        CacheConfiguration<String, String> cfg = new CacheConfiguration<>();
+        cfg.setCacheMode(CacheMode.REPLICATED);
+        cfg.setName("userpreferences");
+
+        Factory<CacheStore<String, String>> factory = () -> new DiskStore(userPreferenceFile);
+
+        cfg.setCacheStoreFactory(factory);
+        cfg.setReadThrough(true);
+        cfg.setWriteThrough(true);
+
+        userPreferences = ignite.getOrCreateCache(cfg);
+        IgniteBiPredicate<String, String> pred = (IgniteBiPredicate<String, String>) (s, s2) -> {
+            userPreferences.put(s, s2);
+            return true;
+        };
+        userPreferences.loadCache(pred);
     }
 
+    @Override
     public String getValue(String hsaId, String key) {
         String compositeKey = buildKey(hsaId, key);
         if (userPreferences.containsKey(compositeKey)) {
@@ -64,14 +73,14 @@ public class UserPreferenceStore {
         return null;
     }
 
-
-
+    @Override
     public void putValue(String hsaId, String key, String value) {
         userPreferences.put(hsaId + "-" + key, value);
     }
 
+    @Override
     public void removeValue(String hsaId, String key) {
-         userPreferences.remove(hsaId + "-" + key);
+        userPreferences.remove(hsaId + "-" + key);
     }
 
     private String buildKey(String hsaId, String key) {

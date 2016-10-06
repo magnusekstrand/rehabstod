@@ -22,9 +22,15 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * Enables component scan for the persistence module.
+ *
  * Created by eriklupander on 2016-10-06.
  */
 @Configuration
 @ComponentScan("se.inera.intyg.rehabstod.persistence")
 public class PersistenceConfig {
+
+    private PersistenceConfig() {
+
+    }
 }

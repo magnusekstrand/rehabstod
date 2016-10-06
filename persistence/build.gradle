@@ -10,4 +10,8 @@ dependencies {
     compile "org.springframework:spring-beans:${springContextVersion}"
     compile "org.springframework:spring-context:${springContextVersion}"
     compile "net.openhft:chronicle-map:3.10.1"
+
+    compile "javax.cache:cache-api:1.0.0"
+    compile "org.apache.ignite:ignite-core:1.7.0"
+    compile "org.apache.ignite:ignite-spring:1.7.0"
 }
