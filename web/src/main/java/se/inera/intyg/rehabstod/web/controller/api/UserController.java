@@ -22,17 +22,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import se.inera.intyg.common.security.authorities.AuthoritiesException;
 import se.inera.intyg.rehabstod.auth.RehabstodUser;
 import se.inera.intyg.rehabstod.service.user.UserService;
+import se.inera.intyg.rehabstod.service.userpreference.UserPreferenceService;
 import se.inera.intyg.rehabstod.web.controller.api.dto.ChangeSelectedUnitRequest;
 import se.inera.intyg.rehabstod.web.controller.api.dto.ChangeUrvalRequest;
 import se.inera.intyg.rehabstod.web.controller.api.dto.GetUserResponse;
+import se.inera.intyg.rehabstod.web.controller.api.dto.StoreUserPreferenceRequest;
 
 @RestController
 @RequestMapping("/api/user")
@@ -43,8 +46,10 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    // api
+    @Autowired
+    UserPreferenceService userPreferenceService;
 
+    // api
     @RequestMapping(value = "", method = RequestMethod.GET)
     public GetUserResponse getUser() {
         RehabstodUser user = getRehabstodUser();
@@ -91,6 +96,17 @@ public class UserController {
         LOG.debug(String.format("Selected urval for user %s is now '%s' ", user.getHsaId(), user.getUrval()));
 
         return new GetUserResponse(user);
+    }
+
+    @RequestMapping(value = "/preferences/{key}")
+    public ResponseEntity<String> getValue(@PathVariable("key") String key) {
+        return ResponseEntity.ok(userPreferenceService.getValue(key));
+    }
+
+    @RequestMapping(value = "/preferences", method = RequestMethod.POST)
+    public ResponseEntity<String> setValue(@RequestBody StoreUserPreferenceRequest storeUserPreferenceRequest) {
+        userPreferenceService.putValue(storeUserPreferenceRequest.getKey(), storeUserPreferenceRequest.getValue());
+        return ResponseEntity.ok("OK");
     }
 
     // private scope

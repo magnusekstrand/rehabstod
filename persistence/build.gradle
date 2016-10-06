@@ -1,0 +1,13 @@
+description = "Inera Rehabstöd - Persistence project"
+
+apply plugin: "java"
+
+configurations {
+    provided
+}
+
+dependencies {
+    compile "org.springframework:spring-beans:${springContextVersion}"
+    compile "org.springframework:spring-context:${springContextVersion}"
+    compile "net.openhft:chronicle-map:3.10.1"
+}

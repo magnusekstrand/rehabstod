@@ -31,6 +31,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import se.inera.intyg.rehabstod.integration.it.config.IntygstjanstIntegrationClientConfiguration;
 import se.inera.intyg.rehabstod.integration.it.config.IntygstjanstIntegrationConfiguration;
 import se.inera.intyg.rehabstod.integration.it.stub.IntygstjanstIntegrationStubConfiguration;
+import se.inera.intyg.rehabstod.persistence.config.PersistenceConfig;
 import se.inera.intyg.rehabstod.web.controller.api.SessionStatusController;
 import se.inera.intyg.rehabstod.web.filters.SessionTimeoutFilter;
 
@@ -48,7 +49,8 @@ public class ApplicationInitializer implements WebApplicationInitializer {
                 ServiceConfig.class, IntygstjanstIntegrationConfiguration.class,
                 IntygstjanstIntegrationClientConfiguration.class,
                 IntygstjanstIntegrationStubConfiguration.class,
-                JmsConfig.class, NTjPPingConfig.class, SecurityConfig.class);
+                JmsConfig.class, NTjPPingConfig.class, SecurityConfig.class,
+                PersistenceConfig.class);
 
         servletContext.addListener(new ContextLoaderListener(appContext));
 
