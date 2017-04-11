@@ -1,0 +1,15 @@
+@startuml
+
+Vårdsystem -> NTjP: ListSickLeavesForCareRequest
+NTjP -> Intygstjänsten: ListSickLeavesForCareRequest
+participant Sjukfallsmotor
+database Databas
+Intygstjänsten -> Databas: Läs sjukfallsgrundande intyg för angiven enhet
+Databas --> Intygstjänsten: Returnerar intyg
+Intygstjänsten -> Sjukfallsmotor: Beräkna sjukfall utifrån intyg
+Sjukfallsmotor -> Sjukfallsmotor: Beräknar sjukfall
+Sjukfallsmotor --> Intygstjänsten: Returnerar framräknande sjukfall
+Intygstjänsten -> Intygstjänsten: Utför filtrering på läkare, sjukskr.längd
+Intygstjänsten --> NTjP: ListSickLeavesForCareResponse
+NTjP --> Vårdsystem: ListSickLeavesForCareResponse
+@enduml
