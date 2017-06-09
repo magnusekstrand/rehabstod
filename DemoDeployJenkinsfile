@@ -4,7 +4,7 @@ def baseVersion = "1.4.*"
 
 stage('checkout tools') {
     node {
-        git url: "https://github.com/sklintyg/tools.git", branch: "master"
+        git url: "https://github.com/sklintyg/tools.git", branch: "develop"
         util.run { checkout scm }
     }
 }
