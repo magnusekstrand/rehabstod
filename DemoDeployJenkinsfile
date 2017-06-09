@@ -44,7 +44,7 @@ stage('provision (tools)') {
 stage('provision') {
     node {
         util.run {
-            ansiblePlaybook(extraVars: [ansible_ssh_host: "164.40.180.105", gitcrypt_key_file: "~/git-crypt4.key"],
+            ansiblePlaybook(extraVars: [ansible_ssh_host: "164.40.180.105", gitcrypt_key_file: "/home/jenkins/git-crypt4.key"],
                     installation: 'ansible-yum', inventory: 'ansible/inventory/rehabstod/demo',
                     playbook: 'ansible/provision.yml')
         }
