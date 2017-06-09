@@ -2,7 +2,14 @@
 
 def baseVersion = "1.4.*"
 
-stage('checkout') {
+stage('checkout tools') {
+    node {
+        git url: "https://github.com/sklintyg/tools.git", branch: "master"
+        util.run { checkout scm }
+    }
+}
+
+stage('checkout rehabstod') {
     node {
         git url: "https://github.com/sklintyg/rehabstod.git", branch: GIT_BRANCH
         util.run { checkout scm }
