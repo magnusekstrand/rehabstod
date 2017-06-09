@@ -4,8 +4,10 @@ def baseVersion = "1.4.*"
 
 stage('checkout tools') {
     node {
-        util.run { dir('base_tools') {
-            git url: "https://github.com/sklintyg/tools.git", branch: "develop" }
+        util.run {
+            dir('base_tools') {
+                git url: "https://github.com/sklintyg/tools.git", branch: "develop"
+            }
         }
     }
 }
@@ -14,6 +16,37 @@ stage('checkout rehabstod') {
     node {
         git url: "https://github.com/sklintyg/rehabstod.git", branch: GIT_BRANCH
         util.run { checkout scm }
+    }
+}
+
+stage('run cleanup scripts') {
+    node {
+        util.run {
+            dir('base_tools') {
+                ansiblePlaybook(extraVars: [ansible_ssh_host: "164.40.180.105"], installation: 'ansible-yum',
+                        inventory: 'ansible/inventory/rehabstod/demo', playbook: 'ansible/cleanup.yml')
+            }
+        }
+    }
+}
+
+stage('provision (tools)') {
+    node {
+        util.run {
+            dir('base_tools') {
+                ansiblePlaybook(extraVars: [ansible_ssh_host: "164.40.180.105"], installation: 'ansible-yum',
+                        inventory: 'ansible/inventory/rehabstod/demo', playbook: 'ansible/provision.yml')
+            }
+        }
+    }
+}
+
+stage('provision') {
+    node {
+        util.run {
+            ansiblePlaybook(extraVars: [ansible_ssh_host: "164.40.180.105"], installation: 'ansible-yum',
+                    inventory: 'ansible/inventory/rehabstod/demo', playbook: 'ansible/provision.yml')
+        }
     }
 }
 
