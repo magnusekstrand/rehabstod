@@ -33,6 +33,8 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by eriklupander on 2017-09-05.
@@ -54,6 +56,13 @@ public class SjukfallPuServiceImpl implements SjukfallPuService {
 
         Iterator<SjukfallEnhet> i = sjukfallList.iterator();
 
+        List<Personnummer> personnummerList = sjukfallList.stream()
+                .map(se -> new Personnummer(se.getPatient().getId()))
+                .distinct()
+                .collect(Collectors.toList());
+
+        Map<Personnummer, PersonSvar> personSvarMap = puService.getPersons(personnummerList);
+
         while (i.hasNext()) {
             SjukfallEnhet item = i.next();
 
@@ -68,7 +77,7 @@ public class SjukfallPuServiceImpl implements SjukfallPuService {
             // since we're ignoring PU-service problems.
             item.getPatient().setNamn(null);
 
-            PersonSvar personSvar = puService.getPerson(pnr);
+            PersonSvar personSvar = personSvarMap.get(pnr);
             boolean patientFound = personSvar != null && personSvar.getStatus() == PersonSvar.Status.FOUND;
             if (patientFound && personSvar.getPerson().isSekretessmarkering()) {
 
@@ -90,6 +99,13 @@ public class SjukfallPuServiceImpl implements SjukfallPuService {
 
         Iterator<SjukfallEnhet> i = sjukfallList.iterator();
 
+        List<Personnummer> personnummerList = sjukfallList.stream()
+                .map(sf -> new Personnummer(sf.getPatient().getId()))
+                .distinct()
+                .collect(Collectors.toList());
+
+        Map<Personnummer, PersonSvar> personSvarMap = puService.getPersons(personnummerList);
+
         while (i.hasNext()) {
             SjukfallEnhet item = i.next();
 
@@ -100,7 +116,7 @@ public class SjukfallPuServiceImpl implements SjukfallPuService {
                 continue;
             }
 
-            PersonSvar personSvar = puService.getPerson(pnr);
+            PersonSvar personSvar = personSvarMap.get(pnr);
             if (personSvar.getStatus() == PersonSvar.Status.FOUND) {
                 if (personSvar.getPerson().isSekretessmarkering()) {
 
@@ -142,7 +158,7 @@ public class SjukfallPuServiceImpl implements SjukfallPuService {
 
         if (!personnummer.verifyControlDigit()) {
             throw new IllegalArgumentException("Personnummer '" + personnummer.getPnrHash()
-                    + "' has invalid control digit, not showing patient details");
+                    + "' has invalid control di git, not showing patient details");
         }
 
         PersonSvar personSvar = puService.getPerson(personnummer);
