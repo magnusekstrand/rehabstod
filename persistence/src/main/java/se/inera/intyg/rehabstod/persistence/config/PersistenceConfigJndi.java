@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.rehabstod.persistence.config;
 
+import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -48,8 +49,19 @@ public class PersistenceConfigJndi extends PersistenceConfig {
     }
     // CHECKSTYLE:ON EmptyBlock
 
+    /*
     @Bean(name = "dbUpdate")
     DbChecker checkDb(DataSource dataSource) {
         return new DbChecker(dataSource, "changelog/changelog.xml");
     }
+    */
+
+    @Bean(name = "dbUpdate")
+    SpringLiquibase initDb(DataSource dataSource) {
+        SpringLiquibase springLiquibase = new SpringLiquibase();
+        springLiquibase.setDataSource(dataSource);
+        springLiquibase.setChangeLog("classpath:changelog/changelog.xml");
+        return springLiquibase;
+    }
+
 }
