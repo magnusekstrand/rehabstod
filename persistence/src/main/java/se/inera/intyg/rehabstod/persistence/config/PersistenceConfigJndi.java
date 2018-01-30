@@ -49,19 +49,9 @@ public class PersistenceConfigJndi extends PersistenceConfig {
     }
     // CHECKSTYLE:ON EmptyBlock
 
-    /*
     @Bean(name = "dbUpdate")
     DbChecker checkDb(DataSource dataSource) {
         return new DbChecker(dataSource, "changelog/changelog.xml");
-    }
-    */
-
-    @Bean(name = "dbUpdate")
-    SpringLiquibase initDb(DataSource dataSource) {
-        SpringLiquibase springLiquibase = new SpringLiquibase();
-        springLiquibase.setDataSource(dataSource);
-        springLiquibase.setChangeLog("classpath:changelog/changelog.xml");
-        return springLiquibase;
     }
 
 }
