@@ -35,5 +35,5 @@ database_pool_initialSize: 10
 # ActiveMQ configuration
 activemq_version : 5.13.0
 activemq_broker_url: "tcp://activemq:61616"
-activemq_username: ""
-activemq_password: ""
+activemq_username: ${amq_username}
+activemq_password: ${amq_password}
