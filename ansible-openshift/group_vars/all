@@ -19,7 +19,6 @@ app_ext_resources_src: "{{ playbook_dir }}/../src/main/resources/"
 app_resources_folder: "{{ inera_root }}/resources"
 
 # Database configuration
-# Database configuration
 database_server: ${db_server}
 database_port: ${db_port}
 database_name: ${db_name}
