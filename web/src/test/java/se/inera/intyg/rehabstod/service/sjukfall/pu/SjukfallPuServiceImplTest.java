@@ -39,11 +39,13 @@ import se.inera.intyg.rehabstod.web.model.SjukfallPatient;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -194,12 +196,17 @@ public class SjukfallPuServiceImplTest {
         when(userService.getUser()).thenReturn(rehabstodUser);
         when(userService.isUserLoggedInOnEnhetOrUnderenhet(ENHET_1)).thenReturn(true);
 
-        when(puService.getPerson(new Personnummer(TOLVANSSON_PNR))).thenReturn(
-                buildPersonSvar(TOLVANSSON_PNR, true, false, PersonSvar.Status.FOUND));
+        when(puService.getPersons(Arrays.asList(new Personnummer(TOLVANSSON_PNR)))).thenReturn(buildPersonMap());
 
         List<SjukfallEnhet> sjukfallList = buildSjukfallList(TOLVANSSON_PNR);
         testee.enrichWithPatientNamesAndFilterSekretess(sjukfallList);
         assertEquals(0, sjukfallList.size());
+    }
+
+    private Map<Personnummer, PersonSvar> buildPersonMap() {
+        Map<Personnummer, PersonSvar> persons = new HashMap<>();
+        persons.put(new Personnummer(TOLVANSSON_PNR),  buildPersonSvar(TOLVANSSON_PNR, true, false, PersonSvar.Status.FOUND));
+        return persons;
     }
 
     @Test(expected = IllegalStateException.class)
