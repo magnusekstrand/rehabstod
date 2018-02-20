@@ -60,6 +60,7 @@ allprojects {
 
     repositories {
         mavenLocal()
+        maven { url "http://nexus:8081/repository/IntygNexusNMT/" }
         maven { url "https://build-inera.nordicmedtest.se/nexus/repository/releases/" }
         maven { url "http://repo.maven.apache.org/maven2" }
     }
