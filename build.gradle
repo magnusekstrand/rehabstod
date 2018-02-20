@@ -58,12 +58,21 @@ allprojects {
     apply plugin: 'maven'
     apply plugin: 'idea'
 
-    repositories {
-        mavenLocal()
-        maven { url "http://nexus:8081/repository/maven-public/" }
-        maven { url "https://build-inera.nordicmedtest.se/nexus/repository/releases/" }
-        maven { url "http://repo.maven.apache.org/maven2" }
+    if (project.hasProperty('openshift')) {
+        repositories {
+            mavenLocal()
+            maven { url "http://nexus:8081/repository/maven-public/" }
+            maven { url "https://build-inera.nordicmedtest.se/nexus/repository/releases/" }
+            maven { url "http://repo.maven.apache.org/maven2" }
+        }
+    } else {
+        repositories {
+            mavenLocal()
+            maven { url "https://build-inera.nordicmedtest.se/nexus/repository/releases/" }
+            maven { url "http://repo.maven.apache.org/maven2" }
+        }
     }
+
 
     dependencies {
         compile "ch.qos.logback:logback-classic:${logbackVersion}"
