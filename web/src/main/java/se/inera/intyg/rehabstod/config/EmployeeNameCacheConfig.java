@@ -20,46 +20,48 @@ package se.inera.intyg.rehabstod.config;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.cache.expiry.CreatedExpiryPolicy;
 import javax.cache.expiry.Duration;
 
-import org.apache.ignite.Ignition;
-import org.apache.ignite.cache.spring.SpringCacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Configuration;
 
-import se.inera.intyg.infra.cache.core.ConfigurableCache;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import redis.embedded.RedisServer;
+
+// import org.apache.ignite.Ignition;
 
 /**
  * Created by eriklupander on 2017-02-23.
  */
 @Configuration
-public class EmployeeNameCacheConfig implements ConfigurableCache {
+public class EmployeeNameCacheConfig {
     public static final String EMPLOYEE_NAME_CACHE_NAME = "employeeName";
     private static final String EMPLOYEE_NAME_CACHE_EXPIRY = "employee.name.cache.expiry";
 
     @Value("${" + EMPLOYEE_NAME_CACHE_EXPIRY + "}")
     private String employeeNameCacheExpirySeconds;
 
+    @Autowired(required = false)
+    private RedisServer redisServer;
+
     @Autowired
-    private SpringCacheManager cacheManager;
+    private CacheManager cacheManager;
 
     @PostConstruct
     public void init() {
-        Duration employeeNameDuration = buildDuration(employeeNameCacheExpirySeconds, EMPLOYEE_NAME_CACHE_EXPIRY);
+    //    Duration employeeNameDuration = buildDuration(employeeNameCacheExpirySeconds, EMPLOYEE_NAME_CACHE_EXPIRY);
 
-        initCache(EMPLOYEE_NAME_CACHE_NAME, employeeNameDuration);
-
+        //initCache(EMPLOYEE_NAME_CACHE_NAME, employeeNameDuration);
+        cacheManager.getCache(EMPLOYEE_NAME_CACHE_NAME);
+        ((RedisCacheManager) cacheManager).setDefaultExpiration(Integer.parseInt(employeeNameCacheExpirySeconds));
     }
 
     @PreDestroy
     public void tearDown() {
-        Ignition.stopAll(false);
-    }
-
-    private void initCache(String cacheName, Duration duration) {
-        cacheManager.getDynamicCacheConfiguration().setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(duration));
-        cacheManager.getCache(cacheName);
+        if (redisServer != null) {
+            redisServer.stop();
+        }
     }
 }

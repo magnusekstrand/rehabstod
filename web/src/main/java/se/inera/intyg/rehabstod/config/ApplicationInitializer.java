@@ -63,7 +63,7 @@ public class ApplicationInitializer implements WebApplicationInitializer {
                 SRSIntegrationStubConfiguration.class,
                 JmsConfig.class, NTjPPingConfig.class, SecurityConfig.class,
                 SjukfallConfig.class, EmployeeNameCacheConfig.class, DynamicLinkConfig.class, PersistenceConfigJndi.class,
-                PersistenceConfigDev.class);
+                PersistenceConfigDev.class, EmbeddedCacheConfiguration.class);
 
         servletContext.addListener(new ContextLoaderListener(appContext));
 

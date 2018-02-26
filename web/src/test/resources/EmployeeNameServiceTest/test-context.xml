@@ -18,26 +18,36 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context" xmlns:cache="http://www.springframework.org/schema/cache"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-    <cache:annotation-driven/>
-    <bean class="se.inera.intyg.infra.cache.core.BasicCacheConfiguration">
-        <property name="bindport" value="47604"/>
-        <property name="igniteIpAddresses" value="127.0.0.1:47604"/>
-        <property name="cacheExpirySeconds" value="5"/>
-    </bean>
+    xmlns:cache="http://www.springframework.org/schema/cache"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+  <cache:annotation-driven/>
+  <bean class="se.inera.intyg.infra.rediscache.core.BasicCacheConfiguration">
+    <!--
+    <property name="bindport" value="47604"/>
+    <property name="igniteIpAddresses" value="127.0.0.1:47604"/>
+    <property name="cacheExpirySeconds" value="5"/>
+    -->
+    <property name="redisHost" value="localhost"/>
+    <property name="redisPort" value="6379"/>
+  </bean>
 
-    <bean class="com.fasterxml.jackson.databind.ObjectMapper"/>
-    <bean class="se.inera.intyg.infra.integration.hsa.stub.GetEmployeeResponderStub" />
-    <bean class="se.inera.intyg.infra.integration.hsa.stub.HsaServiceStub" />
-    <bean class="se.inera.intyg.infra.integration.hsa.stub.BootstrapBean" />
-    <bean class="se.inera.intyg.infra.integration.hsa.client.EmployeeServiceBean" />
-    <bean class="se.inera.intyg.infra.integration.hsa.services.HsaEmployeeServiceImpl" />
+  <bean class="com.fasterxml.jackson.databind.ObjectMapper"/>
+  <bean class="se.inera.intyg.infra.integration.hsa.stub.GetEmployeeResponderStub"/>
+  <bean class="se.inera.intyg.infra.integration.hsa.stub.HsaServiceStub"/>
+  <bean class="se.inera.intyg.infra.integration.hsa.stub.BootstrapBean"/>
+  <bean class="se.inera.intyg.infra.integration.hsa.client.EmployeeServiceBean"/>
+  <bean class="se.inera.intyg.infra.integration.hsa.services.HsaEmployeeServiceImpl"/>
 
-    <bean class="se.inera.intyg.infra.cache.metrics.CacheStatisticsServiceImpl" />
-    <bean class="se.inera.intyg.rehabstod.service.hsa.EmployeeNameServiceImpl"/>
+  <bean class="se.inera.intyg.infra.cache.metrics.CacheStatisticsServiceImpl"/>
+  <bean class="se.inera.intyg.rehabstod.service.hsa.EmployeeNameServiceImpl"/>
 
+  <bean name="props" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations">
+      <list>
+        <value>classpath:EmployeeNameServiceTest/test.properties</value>
+      </list>
+    </property>
+  </bean>
 
 </beans>

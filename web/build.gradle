@@ -116,6 +116,8 @@ dependencies {
     compile "org.springframework:spring-jms:${springContextVersion}"
     compile "wsdl4j:wsdl4j:${wsdl4jVersion}"
 
+    compile "com.github.kstyrc:embedded-redis:0.6"
+
     compileOnly "javax.jms:jms-api:${javaxJmsVersion}"
     compileOnly "javax.servlet:javax.servlet-api:${javaxServletVersion}"
     compileOnly "jstl:jstl:${jstlVersion}"
