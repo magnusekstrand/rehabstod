@@ -63,7 +63,7 @@ public class ApplicationInitializer implements WebApplicationInitializer {
                 SRSIntegrationStubConfiguration.class,
                 JmsConfig.class, NTjPPingConfig.class, SecurityConfig.class,
                 SjukfallConfig.class, EmployeeNameCacheConfig.class, DynamicLinkConfig.class, PersistenceConfigJndi.class,
-                PersistenceConfigDev.class, EmbeddedCacheConfiguration.class);
+                PersistenceConfigDev.class, EmbeddedCacheConfiguration.class, SpringSessionRedisConfig.class);
 
         servletContext.addListener(new ContextLoaderListener(appContext));
 
@@ -78,10 +78,18 @@ public class ApplicationInitializer implements WebApplicationInitializer {
         sessionTimeoutFilter.addMappingForUrlPatterns(null, false, "/*");
         sessionTimeoutFilter.setInitParameter("getSessionStatusUri", SESSION_STATUS_CHECK_URI);
 
+        // Spring session repository filter. MUST be prior to spring security filter.
+        FilterRegistration.Dynamic springSessionRepositoryFilter = servletContext.addFilter("springSessionRepositoryFilter",
+                DelegatingFilterProxy.class);
+        springSessionRepositoryFilter.addMappingForUrlPatterns(null, false, "/*");
+
+
         // Spring security filter
         FilterRegistration.Dynamic springSecurityFilterChain = servletContext.addFilter("springSecurityFilterChain",
                 DelegatingFilterProxy.class);
         springSecurityFilterChain.addMappingForUrlPatterns(null, false, "/*");
+
+
 
         // unitSelectedAssurance filter
         FilterRegistration.Dynamic unitSelectedAssuranceFilter = servletContext.addFilter("unitSelectedAssuranceFilter",
