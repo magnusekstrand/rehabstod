@@ -20,14 +20,13 @@ package se.inera.intyg.rehabstod.config;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.cache.expiry.Duration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Configuration;
-
 import org.springframework.data.redis.cache.RedisCacheManager;
+
 import redis.embedded.RedisServer;
 
 // import org.apache.ignite.Ignition;
@@ -51,9 +50,6 @@ public class EmployeeNameCacheConfig {
 
     @PostConstruct
     public void init() {
-    //    Duration employeeNameDuration = buildDuration(employeeNameCacheExpirySeconds, EMPLOYEE_NAME_CACHE_EXPIRY);
-
-        //initCache(EMPLOYEE_NAME_CACHE_NAME, employeeNameDuration);
         cacheManager.getCache(EMPLOYEE_NAME_CACHE_NAME);
         ((RedisCacheManager) cacheManager).setDefaultExpiration(Integer.parseInt(employeeNameCacheExpirySeconds));
     }

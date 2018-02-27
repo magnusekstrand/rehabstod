@@ -16,29 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.rehabstod.config;
+package se.inera.intyg.rehabstod.web.controller.api;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import redis.embedded.RedisServer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.session.data.redis.RedisOperationsSessionRepository;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+@Component(value = "sessionCleaner")
+@Scope(value = "prototype")
+public class SessionCleaner {
 
-@Configuration
-@Profile("dev")
-public class EmbeddedCacheConfiguration {
+    @Autowired
+    private RedisOperationsSessionRepository redisOperationsSessionRepository;
 
-    public static final int REDIS_DEFAULT_PORT = 6379;
+    private String sessionId;
 
-    @Bean
-    public RedisServer redisServer() {
-        try {
-            RedisServer redisServer = new RedisServer(REDIS_DEFAULT_PORT);
-            redisServer.start();
-            return redisServer;
-        } catch (IOException e) {
-            throw new IllegalStateException("Could not initialize embedded redis (dev profile only");
-        }
+    @Async
+    public void schedule() {
+        redisOperationsSessionRepository.delete(sessionId);
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 }
