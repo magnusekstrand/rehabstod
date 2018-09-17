@@ -46,6 +46,8 @@ public class RehabstodUser extends IntygUser implements Serializable {
     private boolean pdlConsentGiven = false;
     private boolean isLakare = false;
 
+    private RehabstodUserPreferences preferences = RehabstodUserPreferences.empty();
+
     /**
      * Typically used by unit tests.
      */
@@ -174,6 +176,14 @@ public class RehabstodUser extends IntygUser implements Serializable {
 
     public void setPdlConsentGiven(boolean pdlConsentGiven) {
         this.pdlConsentGiven = pdlConsentGiven;
+    }
+
+    public RehabstodUserPreferences getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(RehabstodUserPreferences preferences) {
+        this.preferences = preferences;
     }
 
     /**
