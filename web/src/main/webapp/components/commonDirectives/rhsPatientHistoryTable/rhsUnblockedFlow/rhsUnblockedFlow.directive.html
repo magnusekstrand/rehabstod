@@ -1,4 +1,5 @@
-<rhs-unblocked-step1></rhs-unblocked-step1>
-<rhs-unblocked-step2></rhs-unblocked-step2>
-<rhs-unblocked-step3></rhs-unblocked-step3>
-<rhs-unblocked-list></rhs-unblocked-list>
+<div ng-switch="step">
+  <rhs-unblocked-step1 ng-switch-when="show"></rhs-unblocked-step1>
+  <rhs-unblocked-step2 ng-switch-when="fetch"></rhs-unblocked-step2>
+  <rhs-unblocked-list ng-switch-when="list"></rhs-unblocked-list>
+</div>

@@ -36,7 +36,8 @@ angular.module('rehabstodApp').directive('rhsPatientHistoryTable', [ 'UserModel'
                 available: true,
                 sparradInfoInomVardgivare: true,
                 osparradInfoAndraVardgivare: true,
-                sparradInfoAndraVardgivare: true
+                sparradInfoAndraVardgivare: true,
+                samtyckeFinns: false
             };
 
             $scope.getToolTip = function(diagnos) {
