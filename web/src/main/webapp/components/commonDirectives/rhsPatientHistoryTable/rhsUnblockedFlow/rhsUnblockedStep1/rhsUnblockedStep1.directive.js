@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('rehabstodApp').directive('rhsUnblockedStep1', [
-    function() {
+angular.module('rehabstodApp').directive('rhsUnblockedStep1',
+    function($rootScope) {
     'use strict';
 
     return {
@@ -25,7 +25,10 @@ angular.module('rehabstodApp').directive('rhsUnblockedStep1', [
         scope: {
         },
         templateUrl: '/components/commonDirectives/rhsPatientHistoryTable/rhsUnblockedFlow/rhsUnblockedStep1/rhsUnblockedStep1.directive.html',
-        link: function() {
+        link: function($scope) {
+            $scope.continue = function() {
+                $rootScope.$broadcast('rhsUnblockedFlow.next');
+            }
         }
     };
-} ]);
+});

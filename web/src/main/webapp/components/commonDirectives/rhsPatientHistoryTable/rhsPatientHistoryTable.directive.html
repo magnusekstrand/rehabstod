@@ -71,26 +71,24 @@
           <h3>Ytterligare intygsinformation</h3>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="row">
-            <div class="col-md-4">
-              <rhs-info-box info-expr="extraDiagnoser.sparradInfoInomVardgivare" box-title="label.extradiagnoser.sparradinom.title"
-                            label-truthy="label.extradiagnoser.sparradinom"
-                            label-falsy="label.extradiagnoser.empty"></rhs-info-box>
-            </div>
-            <div class="col-md-4">
-              <rhs-info-box info-expr="extraDiagnoser.osparradInfoAndraVardgivare" box-title="label.extradiagnoser.osparradandra.title"
-                            label-falsy="label.extradiagnoser.empty">
-                <rhs-unblocked-flow></rhs-unblocked-flow>
-              </rhs-info-box>
-            </div>
-            <div class="col-md-4">
-              <rhs-info-box info-expr="extraDiagnoser.sparradInfoAndraVardgivare" box-title="label.extradiagnoser.sparradandra.title"
-                            label-truthy="label.extradiagnoser.sparradandra"
-                            label-falsy="label.extradiagnoser.empty"></rhs-info-box>
-            </div>
-          </div>
+      <div class="row extra-intyginfo">
+        <div class="col-md-4">
+          <rhs-info-box info-expr="extraDiagnoser.sparradInfoInomVardgivare"
+                        box-title="label.extradiagnoser.sparradinom.title"
+                        label-truthy="label.extradiagnoser.sparradinom"
+                        label-falsy="label.extradiagnoser.empty"></rhs-info-box>
+        </div>
+        <div class="col-md-4">
+          <rhs-info-box info-expr="extraDiagnoser.osparradInfoAndraVardgivare"
+                        box-title="label.extradiagnoser.osparradandra.title" label-falsy="label.extradiagnoser.empty">
+            <rhs-unblocked-flow></rhs-unblocked-flow>
+          </rhs-info-box>
+        </div>
+        <div class="col-md-4">
+          <rhs-info-box info-expr="extraDiagnoser.sparradInfoAndraVardgivare"
+                        box-title="label.extradiagnoser.sparradandra.title"
+                        label-truthy="label.extradiagnoser.sparradandra"
+                        label-falsy="label.extradiagnoser.empty"></rhs-info-box>
         </div>
       </div>
     </div>

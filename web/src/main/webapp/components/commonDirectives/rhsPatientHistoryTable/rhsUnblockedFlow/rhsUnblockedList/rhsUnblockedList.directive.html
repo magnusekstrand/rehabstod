@@ -1,0 +1,12 @@
+<h5>Välj vårdgivare att hämta ifrån</h5>
+
+<table class="table table-striped">
+  <tbody>
+  <tr ng-repeat="vardgivare in vardgivareMedInfo">
+    <td ng-attr-id="osparrad-{{index}}-column-number-{{$index}}">{{$index + 1}}</td>
+    <td>
+      <a href ng-click="">Hämta</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
