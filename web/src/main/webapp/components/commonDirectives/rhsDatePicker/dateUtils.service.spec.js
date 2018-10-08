@@ -22,7 +22,7 @@ xdescribe('DateUtilsService', function() {
 
     var DateUtilsService;
 
-    beforeEach(angular.mock.module('common'), function($provide){
+    beforeEach(angular.mock.module('common'), function(/*$provide*/){
 
     });
 

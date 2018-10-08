@@ -1,8 +1,15 @@
 <h4>{{::boxTitle |message}}</h4>
-<div ng-switch="infoExpr">
-  <div ng-switch-when="true">
-    <p ng-if="labelTruthy">{{::labelTruthy |message}}</p>
-    <ng-transclude></ng-transclude>
+<div ng-switch="infoExpr" class="flex-fill">
+  <div ng-switch-when="true" class="flex-fill">
+    <div ng-switch="showContent" class="flex-fill">
+      <div ng-switch-when="true" class="flex-fill">
+        <ng-transclude class="flex-fill"></ng-transclude>
+      </div>
+      <div ng-switch-when="false" class="flex-fill">
+        <p class="flex-fill" ng-if="labelTruthy">{{::labelTruthy |message}}</p>
+        <rhs-box-button rhs-click="next()">Visa mig</rhs-box-button>
+      </div>
+    </div>
   </div>
   <p ng-switch-default>
     {{::labelFalsy |message}}

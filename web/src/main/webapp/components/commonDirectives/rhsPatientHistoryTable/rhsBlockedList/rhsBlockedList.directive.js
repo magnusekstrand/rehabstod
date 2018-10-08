@@ -16,19 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('rehabstodApp').directive('rhsUnblockedStep1',
-    function($rootScope) {
+angular.module('rehabstodApp').directive('rhsBlockedList',
+    function(patientHistoryViewState) {
     'use strict';
 
     return {
         restrict: 'E',
         scope: {
+            model: '=',
+            listLabel: '@'
         },
-        templateUrl: '/components/commonDirectives/rhsPatientHistoryTable/rhsUnblockedFlow/rhsUnblockedStep1/rhsUnblockedStep1.directive.html',
+        templateUrl: '/components/commonDirectives/rhsPatientHistoryTable/rhsBlockedList/rhsBlockedList.directive.html',
         link: function($scope) {
-            $scope.continue = function() {
-                $rootScope.$broadcast('rhsUnblockedFlow.next');
-            }
+
+            $scope.patientHistoryViewState = patientHistoryViewState;
+
+            $scope.fetch = function(/*vardgivare*/) {
+
+            };
         }
     };
 });

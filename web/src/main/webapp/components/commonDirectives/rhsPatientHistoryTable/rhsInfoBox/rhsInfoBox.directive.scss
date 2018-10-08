@@ -1,5 +1,7 @@
 rhs-info-box {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
   border-radius: 10px;
   border: 1px solid $rs-color-07;
   height: 100%;

@@ -26,19 +26,13 @@ angular.module('rehabstodApp').directive('rhsUnblockedFlow',
         },
         templateUrl: '/components/commonDirectives/rhsPatientHistoryTable/rhsUnblockedFlow/rhsUnblockedFlow.directive.html',
         link: function($scope) {
-            $scope.step = 'show';
+            $scope.step = 'consent';
 
-            $scope.$on('rhsUnblockedFlow.next', function(event) {
+            $scope.$on('rhsUnblockedFlow.next', function() {
 
                 switch ($scope.step){
-                case 'show':
-                    $scope.step = 'fetch';
-                    break;
-                case 'fetch':
+                case 'consent':
                     $scope.step = 'list';
-                    break;
-                case 'list':
-                    $scope.step = 'fetch';
                     break;
                 }
 

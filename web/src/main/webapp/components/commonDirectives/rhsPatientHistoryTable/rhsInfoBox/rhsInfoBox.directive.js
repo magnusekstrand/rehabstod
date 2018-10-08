@@ -30,7 +30,11 @@ angular.module('rehabstodApp').directive('rhsInfoBox',
             labelFalsy: '@'
         },
         templateUrl: '/components/commonDirectives/rhsPatientHistoryTable/rhsInfoBox/rhsInfoBox.directive.html',
-        link: function() {
+        link: function($scope) {
+            $scope.showContent = false;
+            $scope.next = function() {
+                $scope.showContent = true;
+            };
         }
     };
 });

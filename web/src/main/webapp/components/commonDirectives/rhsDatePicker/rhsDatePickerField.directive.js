@@ -117,7 +117,7 @@ angular.module('rehabstodApp').directive('rhsDatePicker',['$rootScope', '$timeou
                     $scope.toggleFocus();
                 };
             },
-            link: function(scope, element, attrs, ctrl) {
+            link: function(scope/*, element, attrs, ctrl*/) {
                 scope.$watch('targetModel', function(newVal, oldVal) {
                     if (newVal || newVal !== oldVal) {
                         if(dateUtils.isDate(newVal)) {

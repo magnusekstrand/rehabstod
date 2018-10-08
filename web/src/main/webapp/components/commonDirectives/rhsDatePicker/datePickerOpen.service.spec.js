@@ -23,7 +23,7 @@ xdescribe('DatePickerOpenService', function() {
     var pickerState;
     var DatePickerOpenService;
 
-    beforeEach(angular.mock.module('common'), function($provide){
+    beforeEach(angular.mock.module('common'), function(/*$provide*/){
     });
 
     beforeEach(angular.mock.inject(['datePickerOpenService',

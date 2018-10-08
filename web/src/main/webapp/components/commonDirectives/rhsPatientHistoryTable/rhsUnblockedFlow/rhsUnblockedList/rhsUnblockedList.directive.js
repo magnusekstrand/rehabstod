@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('rehabstodApp').directive('rhsUnblockedList',
-    function($rootScope) {
+    function(patientHistoryViewState) {
     'use strict';
 
     return {
@@ -27,15 +27,11 @@ angular.module('rehabstodApp').directive('rhsUnblockedList',
         templateUrl: '/components/commonDirectives/rhsPatientHistoryTable/rhsUnblockedFlow/rhsUnblockedList/rhsUnblockedList.directive.html',
         link: function($scope) {
 
-            $scope.vardgivareMedInfo = [
-                {
+            $scope.patientHistoryViewState = patientHistoryViewState;
 
-                }
-            ];
+            $scope.fetch = function(/*vardgivare*/) {
 
-            $scope.fetch = function(vardgivare) {
-
-            }
+            };
         }
     };
 });
